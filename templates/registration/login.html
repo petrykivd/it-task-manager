@@ -107,7 +107,7 @@
                 {#                  </div>#}
                 {##}
                 {#                </form>#}
-                <form role="form" method="post" action="#">
+                <form role="form" method="post" action=" {% url 'login' %}">
                   {% csrf_token %}
 
                   <label for="id_username">Username</label>
