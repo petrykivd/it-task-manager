@@ -20,6 +20,10 @@ class Position(models.Model):
 class Worker(AbstractUser):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "Worker"
+        verbose_name_plural = "Workers"
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}: {self.position}"
 
@@ -30,10 +34,10 @@ class Worker(AbstractUser):
 class Task(models.Model):
 
     PRIORITY_CHOICES = [
-        ("urgent", "Urgent"),
-        ("critical", "Critical"),
-        ("medium", "Medium"),
         ("asap", "ASAP (As Soon As Possible)"),
+        ("medium", "Medium"),
+        ("critical", "Critical"),
+        ("urgent", "Urgent"),
     ]
 
     name = models.CharField(max_length=255, unique=True)
