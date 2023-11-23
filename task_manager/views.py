@@ -14,7 +14,6 @@ def index(request):
     user_tasks = Task.objects.filter(assignees=request.user.id)
 
     tasks = Task.objects.filter(is_completed=False)
-
     unique_priorities = tasks.values_list('priority', flat=True).distinct()
     task_counts = {priority: Task.objects.filter(priority=priority).count() for priority in unique_priorities}
     context = {

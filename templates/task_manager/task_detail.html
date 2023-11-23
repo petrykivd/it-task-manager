@@ -43,15 +43,18 @@
             {% endfor %}
             <div class="text-end mt-3">
               <div>
-                <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
+                {% if user in task.assignees.all %}
+                  <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
                         data-bs-target="#confirmModal">
                   Mark task as done
                 </button>
+                {% endif %}
+
                 {% if request.user.is_superuser %}
-                	<button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
-                        data-bs-target="#deleteModal">
-                  Delete Task
-                </button>
+                  <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#deleteModal">
+                    Delete Task
+                  </button>
                 {% endif %}
               </div>
             </div>
