@@ -13,7 +13,7 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <form method="post" action="{% url 'task_manager:mark-task-as-done' task.id %}" class="d-inline">
             {% csrf_token %}
-            <button type="submit" class="btn btn-success">Yes, Task Done</button>
+            <button type="submit" class="btn btn-success">Yes, task is done</button>
           </form>
         </div>
       </div>

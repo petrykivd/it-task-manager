@@ -50,6 +50,10 @@ class Task(models.Model):
                                 default="medium")
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
     assignees = models.ManyToManyField(Worker, related_name="tasks")
+    complete_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ["deadline"]
 
     def __str__(self):
         return f"Task: {self.name}, type: ({self.task_type})"

@@ -27,10 +27,7 @@
                       <i class="fa fa-ellipsis-v text-secondary"></i>
                     </a>
                     <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                      <li><a class="dropdown-item border-radius-md" href="#">Add task</a></li>
-                      {% if request.user.is_superuser %}
-                        <li><a class="dropdown-item border-radius-md" href="#">Delete</a></li>
-                      {% endif %}
+                      <li><a class="dropdown-item border-radius-md" href="{% url 'task_manager:create-task' %}?priority={{ priority }}">Add task</a></li>
                     </ul>
                   </div>
                 </div>
@@ -102,11 +99,9 @@
     <div class="text-center">
       <h1>Welcome to Task Hub!</h1>
       <p>Please login to access your tasks.</p>
-      <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a>
+      <a href="{% url 'task_manager:login' %}" class="btn btn-primary">Sign in</a>
     </div>
   {% endif %}
-{% include "includes/footer.html" %}
-
 </div>
 
 {% endblock content %}
