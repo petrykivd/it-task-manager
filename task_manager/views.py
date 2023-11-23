@@ -1,4 +1,4 @@
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate, login, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
@@ -16,7 +16,10 @@ def index(request):
     user_tasks = Task.objects.filter(assignees=request.user.id)
     tasks = Task.objects.filter(is_completed=False)
     unique_priorities = tasks.values_list('priority', flat=True).distinct()
-    task_counts = {priority: Task.objects.filter(priority=priority).filter(is_completed=False).count() for priority in unique_priorities}
+    task_counts = {
+        priority: Task.objects.filter(priority=priority).filter(is_completed=False).count()
+        for priority in unique_priorities
+    }
     context = {
         "tasks": tasks,
         "unique_priorities": unique_priorities,
@@ -190,3 +193,8 @@ def assign_worker_to_task(request):
             return redirect('task_manager:task-detail', pk=task.pk)
 
     return render(request, 'task_manager/assign_worker_to_task.html', {'form': form})
+
+
+def worker_list(request):
+    workers = get_user_model().objects.all()
+    return render(request, 'task_manager/worker_list.html', {'workers': workers})

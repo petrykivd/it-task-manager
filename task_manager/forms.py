@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from django import forms
+from django.contrib.auth import get_user_model
 
 from task_manager.models import Task, Worker
 
@@ -10,7 +11,12 @@ class TaskCreationForm(forms.ModelForm):
         model = Task
         fields = ['name', 'task_type', 'deadline', 'assignees', 'priority', 'description']
         widgets = {
-            'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}, format='%Y-%m-%dT%H:%M'),
+            'deadline': forms.DateTimeInput(
+                attrs={
+                    'type': 'datetime-local', 'class': 'form-control'
+                },
+                format='%Y-%m-%dT%H:%M'
+            ),
             'assignees': forms.CheckboxSelectMultiple(),
         }
 
@@ -39,4 +45,10 @@ class TaskEditForm(forms.ModelForm):
 
 class AssignWorkerForm(forms.Form):
     task = forms.ModelChoiceField(queryset=Task.objects.all(), label='Select Task')
-    worker = forms.ModelChoiceField(queryset=Worker.objects.all(), label='Select Worker')
+    worker = forms.ModelChoiceField(queryset=get_user_model().objects.all(), label='Select Worker')
+
+
+class WorkerForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = '__all__'
