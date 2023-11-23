@@ -2,109 +2,111 @@
 {% load static %}
 
 {% block content %}
-  <div class="container-fluid py-4">
+  <div class="container-fluid py-4" >
   {% if request.user.is_authenticated %}
     {% if tasks %}
       {% for priority, count in task_counts.items %}
         <div class="row my-4">
-          <div class="col-lg-8 col-md-4 mb-md-0 mb-4">
-            <div class="card">
-              <div class="card-header pb-0">
-                <div class="row">
-                  <div class="col-lg-6 col-7">
-                    <h6>
-                      {{ priority|title }}
-                    </h6>
-                    <p class="text-sm mb-0">
-                      <i class="fa fa-check text-info" aria-hidden="true"></i>
-                      <span class="font-weight-bold ms-1">{{ count }}</span> tasks left
-                    </p>
-                  </div>
-                  {% if request.user.is_superuser %}
-                    <div class="col-lg-6 col-5 my-auto text-end">
-                      <div class="dropdown float-lg-end pe-4">
-                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-secondary"></i>
-                        </a>
-                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                          <li><a class="dropdown-item border-radius-md" href="#">Delete</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  {% endif %}
-
+        <div class="col-lg-8 col-md-4 mb-md-0 mb-4">
+          <div class="card" style="width: 650px;">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-6 col-7">
+                  <h6>
+                    {{ priority|title }}
+                  </h6>
+                  <p class="text-sm mb-0">
+                    <i class="fas fa-exclamation text-warning" aria-hidden="true"></i>
+                    <span class="font-weight-bold ms-1">{{ count }}</span> task{{ count|pluralize }} left
+                  </p>
                 </div>
+
+                <div class="col-lg-6 col-5 my-auto text-end">
+                  <div class="dropdown float-lg-end pe-4">
+                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa fa-ellipsis-v text-secondary"></i>
+                    </a>
+                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                      <li><a class="dropdown-item border-radius-md" href="#">Add task</a></li>
+                      {% if request.user.is_superuser %}
+                        <li><a class="dropdown-item border-radius-md" href="#">Delete</a></li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+
+
               </div>
-              <div class="card-body px-0 pb-2 ">
-                <div class="table-responsive">
-                  <table class="table align-items-center mb-0">
-                    <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Task</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Type</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Workers</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Deadline
-                      </th>
-                    </tr>
-                    </thead>
-                    {% for task in tasks %}
-                      {% if task.priority == priority %}
-                        <tbody>
-                        <tr>
-                          <td>
+            </div>
+            <div class="card-body px-0 pb-2 ">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Task</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Type</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Workers</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Deadline
+                    </th>
+                  </tr>
+                  </thead>
+                  {% for task in tasks %}
+                    {% if task.priority == priority %}
+                      <tbody>
+                      <tr>
+                        <td>
+                          <a href="{% url 'task_manager:task-detail' pk=task.id %} ">
                             <div class="d-flex px-2 py-1">
                               <div>
-                                <img src="{% static 'images/task_logo.jpg' %}" class="avatar avatar-sm me-3" alt="xd">
+                                <i class="fas fa-tasks me-2" ></i>
                               </div>
                               <div class="d-flex flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">{{ task.name }}</h6>
                               </div>
                             </div>
-                          </td>
-                          <td class="align-middle text-center text-sm">
-                            <span class="text-xs font-weight-bold"> {{ task.task_type }} </span>
-                          </td>
-                          <td>
-                            <div class="avatar-group mt-2">
-                              <a href="#" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom" title="Ryan Tompson">
-                                <img src="{% static 'images/worker.jpg' %}" alt="team1">
-                              </a>
-                              <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom" title="Romina Hadid">
-                                <img src="{% static 'images/worker.jpg' %}" alt="team2">
-                              </a>
-                            </div>
-                          </td>
-                          <td class="align-middle text-center text-sm">
-                            <span class="text-xs font-weight-bold"> 10.12.23 </span>
-                          </td>
+                          </a>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          <span class="text-xs font-weight-bold"> {{ task.task_type }} </span>
+                        </td>
+                        <td>
+                          <div class="avatar-group mt-2">
+                            {% for worker in task.assignees.all %}
+                              <a href="{% url 'task_manager:worker-detail' pk=worker.id %}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="{{ worker.first_name }} {{ worker.last_name }}">
+                              <img src="{% static 'images/worker.jpg' %}" alt="team1">
+                            </a>
+                            {% endfor %}
 
-                        </tr>
+                          </div>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          <span class="text-xs font-weight-bold"> {{ task.deadline }} </span>
+                        </td>
 
-                        </tbody>
-                      {% endif %}
-                    {% endfor %}
-                  </table>
-                </div>
+                      </tr>
+
+                      </tbody>
+                    {% endif %}
+                  {% endfor %}
+                </table>
               </div>
             </div>
           </div>
-          {% include "includes/footer.html" %}
-
         </div>
       {% endfor %}
-
     {% endif %}
   {% else %}
     <div class="text-center">
       <h1>Welcome to Task Hub!</h1>
       <p>Please login to access your tasks.</p>
-      <a href="{% url 'login'%}" class="btn btn-primary">Sign in</a>
+      <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a>
     </div>
   {% endif %}
+{% include "includes/footer.html" %}
 
+</div>
 
 {% endblock content %}
 
