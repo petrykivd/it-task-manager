@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
+from django.utils import timezone
 
 
 class TaskType(models.Model):
@@ -57,3 +58,8 @@ class Task(models.Model):
 
     def __str__(self):
         return f"Task: {self.name}, type: ({self.task_type})"
+
+    def is_task_overdue(self):
+        if self.deadline < timezone.now():
+            return True
+        return False
