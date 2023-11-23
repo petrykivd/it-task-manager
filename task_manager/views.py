@@ -1,12 +1,14 @@
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.views import generic
 
-from .models import Task, TaskType, Worker, Position
+from .models import Task, Worker
 
 
 def index(request):
@@ -29,6 +31,26 @@ def index(request):
     )
 
 
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                form.add_error(None, "Invalid login credentials.")
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'registration/login.html', {'form': form})
+
+
 @login_required
 def logout_view(request):
     logout(request)
@@ -44,6 +66,7 @@ def mark_task_as_done(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
         task.is_completed = True
+        task.complete_date = timezone.now()
         task.save()
         messages.success(request, 'Task marked as done successfully.')
     except Task.DoesNotExist:
@@ -85,3 +108,14 @@ def leave_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     task.assignees.remove(request.user)
     return redirect('task_manager:task-detail', pk=task_id)
+
+
+@login_required
+def completed_tasks_view(request):
+    completed_tasks = Task.objects.filter(is_completed=True)
+
+    context = {
+        'completed_tasks': completed_tasks,
+    }
+
+    return render(request, "task_manager/archive_task_list.html", context)

@@ -1,12 +1,4 @@
-<html lang="en">
-
-
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-
+{% load static %}
   <title>
     Tasks Hub
   </title>
@@ -86,44 +78,30 @@
                 </p>
               </div>
               <div class="card-body">
-                {#                <form role="form" method="post" action="#">#}
-                {#                  {% csrf_token %}#}
-                {#                  <input type="hidden" name="csrfmiddlewaretoken"#}
-                {#                         value="D1weasyFS8jzBx9wT8nRyXSXfRCGvpWMtaINc6GKJ715GEtTtcXr106NUqxfudV9">#}
-                {##}
-                {#                  <label for="id_username">Username</label>#}
-                {#                  <div class="mb-3">#}
-                {#                    <input type="text" name="username" class="form-control" placeholder="Username" autocapitalize="none"#}
-                {#                           autocomplete="username" maxlength="150" required id="id_username">#}
-                {#                  </div>#}
-                {##}
-                {#                  <label for="id_password">Password</label>#}
-                {#                  <div class="mb-3">#}
-                {#                    <input type="password" name="password" class="form-control" placeholder="Password" required#}
-                {#                           id="id_password">#}
-                {#                  </div>#}
-                {#                  <div class="text-center">#}
-                {#                    <button type="submit" class="btn bg-gradient-info w-100 mt-1 mb-0">Sign in</button>#}
-                {#                  </div>#}
-                {##}
-                {#                </form>#}
-                <form role="form" method="post" action=" {% url 'login' %}">
+                <form role="form" method="post" action="{% url 'task_manager:login' %}">
                   {% csrf_token %}
 
-                  <label for="id_username">Username</label>
+                  {{ form.username.label_tag }}
                   <div class="mb-3">
-                    <input type="text" name="username" class="form-control" placeholder="Username" autocapitalize="none"
-                           autocomplete="username" maxlength="150" required id="id_username">
+                    {{ form.username }}
                   </div>
 
-                  <label for="id_password">Password</label>
+                  {{ form.password.label_tag }}
                   <div class="mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password" required
-                           id="id_password">
+                    {{ form.password }}
                   </div>
+
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-info w-100 mt-1 mb-0">Sign in</button>
                   </div>
+
+                  {% if form.errors %}
+                    <div class="text-danger">
+                      {% for error in form.errors.values %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
                 </form>
               </div>
             </div>
@@ -131,7 +109,7 @@
           <div class="col-md-6">
             <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
               <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                   style="background-image:url('/static/img/curved-images/curved6.jpg')"></div>
+                   style="background-image: url('{% static 'images/curved6.jpg' %}');"></div>
             </div>
           </div>
         </div>
