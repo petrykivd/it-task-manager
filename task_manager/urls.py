@@ -6,7 +6,9 @@ from task_manager.views import (
     TaskDetailView,
     mark_task_as_done,
     delete_task,
-    WorkerDetailView
+    WorkerDetailView,
+    join_task,
+    leave_task
 )
 
 urlpatterns = [
@@ -16,5 +18,7 @@ urlpatterns = [
     path("mark_task_as_done/<int:task_id>/", mark_task_as_done, name='mark-task-as-done'),
     path("delete_task/<int:task_id>/", delete_task, name="delete-task"),
     path("workers/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
+    path('join_task/<int:task_id>/', join_task, name='join-task'),
+    path('leave_task/<int:task_id>/', leave_task, name='leave-task'),
 ]
 app_name = "task_manager"

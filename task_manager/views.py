@@ -3,8 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpRequest, HttpResponse
-from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.views import generic
 
 from .models import Task, TaskType, Worker, Position
@@ -70,3 +69,19 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         tasks = Task.objects.filter(assignees=worker)
         context['tasks'] = tasks
         return context
+
+
+@require_POST
+@login_required
+def join_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.assignees.add(request.user)
+    return redirect('task_manager:task-detail', pk=task_id)
+
+
+@require_POST
+@login_required
+def leave_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.assignees.remove(request.user)
+    return redirect('task_manager:task-detail', pk=task_id)
