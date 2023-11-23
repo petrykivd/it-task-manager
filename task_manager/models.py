@@ -25,7 +25,7 @@ class Worker(AbstractUser):
         verbose_name_plural = "Workers"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}: {self.position}"
+        return f"{self.first_name} {self.last_name}  ({self.position})"
 
     # def get_absolute_url(self):
     #     return reverse("")
@@ -34,10 +34,11 @@ class Worker(AbstractUser):
 class Task(models.Model):
 
     PRIORITY_CHOICES = [
+        ("urgent", "Urgent"),
         ("asap", "ASAP (As Soon As Possible)"),
         ("medium", "Medium"),
         ("critical", "Critical"),
-        ("urgent", "Urgent"),
+
     ]
 
     name = models.CharField(max_length=255, unique=True)
