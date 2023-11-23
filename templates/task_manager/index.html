@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-  <div class="container-fluid py-4" >
+  <div class="container-fluid py-4">
   {% if request.user.is_authenticated %}
     {% if tasks %}
       {% for priority, count in task_counts.items %}
         <div class="row my-4">
         <div class="col-lg-8 col-md-4 mb-md-0 mb-4">
-          <div class="card" style="width: 650px;">
+          <div class="card" style="width: 70vw">
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
@@ -34,8 +34,6 @@
                     </ul>
                   </div>
                 </div>
-
-
               </div>
             </div>
             <div class="card-body px-0 pb-2 ">
@@ -59,10 +57,12 @@
                           <a href="{% url 'task_manager:task-detail' pk=task.id %} ">
                             <div class="d-flex px-2 py-1">
                               <div>
-                                <i class="fas fa-tasks me-2" ></i>
+                                <i class="fas fa-tasks me-2"></i>
                               </div>
                               <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ task.name }}</h6>
+                                <h6 class="mb-0 text-sm">
+                                  {{ task.name }}
+                                </h6>
                               </div>
                             </div>
                           </a>
@@ -73,16 +73,17 @@
                         <td>
                           <div class="avatar-group mt-2">
                             {% for worker in task.assignees.all %}
-                              <a href="{% url 'task_manager:worker-detail' pk=worker.id %}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
-                               data-bs-placement="bottom" title="{{ worker.first_name }} {{ worker.last_name }}">
-                              <img src="{% static 'images/worker.jpg' %}" alt="team1">
-                            </a>
+                              <a href="{% url 'task_manager:worker-detail' pk=worker.id %}"
+                                 class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom" title="{{ worker.first_name }} {{ worker.last_name }}">
+                                <img src="{% static 'images/worker.jpg' %}" alt="team1">
+                              </a>
                             {% endfor %}
 
                           </div>
                         </td>
                         <td class="align-middle text-center text-sm">
-                          <span class="text-xs font-weight-bold"> {{ task.deadline }} </span>
+                          <span class="text-xs font-weight-bold">{{ task.deadline }}</span>
                         </td>
 
                       </tr>
