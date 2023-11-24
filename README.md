@@ -15,7 +15,7 @@ team members to create tasks, assign them to other members, and mark them as com
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/petrykivd/it-task-manager.git
+1. Clone the repository: git clone https://github.com/petrykivd/it-task-manager.git
 2. Create a virtual environment: `python -m venv venv`
 3. Activate the virtual environment:
     - On Windows: `venv\Scripts\activate`
@@ -23,6 +23,7 @@ team members to create tasks, assign them to other members, and mark them as com
 4. Install dependencies: `pip install -r requirements.txt`
     - If you don't have **pip** installed  [install it here](https://pip.pypa.io/en/stable/installation/#).
 5. Apply database migrations: `python manage.py migrate`
+    - `python manage.py loaddata database_dump.json` to load the database dump.
 6. Create a superuser: `python manage.py createsuperuser` or use the existing one:
     - Username: `admin`
     - Password: `12345`
