@@ -13,9 +13,17 @@ team members to create tasks, assign them to other members, and mark them as com
 - **Worker Management**: View a list of team members and their associated tasks.
 - **Authentication**: Secure login/logout functionality.
 
+## Check it out!
+
+[Task manager project deployed on Render](https://task-manager-j8w3.onrender.com/)
+
+**Demo Credentials:**
+- Username: `bob3307` 
+- Password: `pass12345`
+
 ## Getting Started
 
-1. Clone the repository: git clone https://github.com/petrykivd/it-task-manager.git
+1. Clone the repository: ` git clone https://github.com/petrykivd/it-task-manager.git `
 2. Create a virtual environment: `python -m venv venv`
 3. Activate the virtual environment:
     - On Windows: `venv\Scripts\activate`
@@ -26,7 +34,7 @@ team members to create tasks, assign them to other members, and mark them as com
     - `python manage.py loaddata database_dump.json` to load the database dump.
 6. Create a superuser: `python manage.py createsuperuser` or use the existing one:
     - Username: `admin`
-    - Password: `12345`
+    - Password: `admin@12345`
       or use regular user:
     - Username: `bob3307`
     - Password: `pass12345`
