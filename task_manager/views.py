@@ -198,7 +198,7 @@ def assign_worker_to_task(request):
 
 def workers_list(request):
     workers_list = Worker.objects.all()
-    paginator = Paginator(workers_list, 3)  # Вказуємо, скільки працівників показувати на одній сторінці
+    paginator = Paginator(workers_list, 5)  # Вказуємо, скільки працівників показувати на одній сторінці
 
     page = request.GET.get('page')
     try:
