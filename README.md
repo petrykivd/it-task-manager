@@ -1,6 +1,6 @@
 # it-task-manager
 
-Welcome to the Task Manager, a simple web application for managing tasks in your development team. This project allows
+Welcome to the Task | Hub, a simple web application for managing tasks in your development team. This project allows
 team members to create tasks, assign them to other members, and mark them as completed.
 
 ## Features
@@ -15,7 +15,7 @@ team members to create tasks, assign them to other members, and mark them as com
 
 ## Check it out!
 
-[Task manager project deployed on Render](https://task-manager-j8w3.onrender.com/)
+[Task Hub project deployed on Render](https://task-manager-j8w3.onrender.com/)
 
 **Demo Credentials:**
 - Username: `bob3307` 
@@ -58,7 +58,7 @@ Visit `http://127.0.0.1:8000/` in your web browser to access the Task Manager.
 - **Design Enhancement**:
    - Style Refinement: Improve the styles and layout of elements on the task pages for a more user-friendly experience.
    - Animations and Transitions: Add animations or transitions between pages to enhance visual appeal and usability.
-- **Internationalization Support:**: 
+- **Internationalization Support**: 
    - Provide users with the option to choose their preferred language for the user interface (localization).
    - Ensure translation support for essential textual elements used throughout the application.
 - **Task Statistics**: 
@@ -72,4 +72,4 @@ Visit `http://127.0.0.1:8000/` in your web browser to access the Task Manager.
 
 ## Contributing
 
-Feel free to contribute to these enhancements, and let's make the Task Manager even better!
+Feel free to contribute to these enhancements, and let's make the Task | Hub even better!
