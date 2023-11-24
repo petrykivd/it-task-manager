@@ -1,6 +1,7 @@
 from django.contrib.auth import logout, authenticate, login, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -195,6 +196,22 @@ def assign_worker_to_task(request):
     return render(request, 'task_manager/assign_worker_to_task.html', {'form': form})
 
 
-def worker_list(request):
-    workers = get_user_model().objects.all()
-    return render(request, 'task_manager/worker_list.html', {'workers': workers})
+def workers_list(request):
+    workers_list = Worker.objects.all()
+    paginator = Paginator(workers_list, 3)  # Вказуємо, скільки працівників показувати на одній сторінці
+
+    page = request.GET.get('page')
+    try:
+        workers = paginator.page(page)
+    except PageNotAnInteger:
+        # Якщо номер сторінки не є цілим числом, відобразимо першу сторінку.
+        workers = paginator.page(1)
+    except EmptyPage:
+        # Якщо номер сторінки за межами діапазону, відобразимо останню сторінку.
+        workers = paginator.page(paginator.num_pages)
+
+    context = {
+        'workers': workers,
+    }
+
+    return render(request, "task_manager/worker_list.html", context)

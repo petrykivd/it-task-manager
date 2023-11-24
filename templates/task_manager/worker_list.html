@@ -5,19 +5,38 @@
     <h2>Workers List</h2>
     <ul>
     {% for worker in workers %}
-      <li><a
-          href="{% url 'task_manager:worker-detail' pk=worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
-        - {{ worker.position }}
-        <a href="{% url 'task_manager:assign-worker-to-task' %}?worker_id={{ worker.id }}" style="margin-left: 30px;">
-          <i class="fas fa-paperclip"></i> Attach to the task
-        </a>
+      <li>
+        <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+          {{ worker.first_name }} {{ worker.last_name }}
+        </a> - {{ worker.position }}
+        <form method="get" class="d-inline">
+          <input type="hidden" name="worker_id" value="{{ worker.id }}">
+          <button type="submit" class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem;">
+            <i class="fas fa-paperclip"></i> Attach
+          </button>
+        </form>
       </li>
     {% endfor %}
+
+    <form method="get" class="pagination">
+      {% if workers.has_previous %}
+          <button type="submit" name="page" value="1" class="btn btn-sm btn-secondary">&laquo; first</button>
+          <button type="submit" name="page" value="{{ workers.previous_page_number }}" class="btn btn-sm btn-secondary">prev</button>
+      {% endif %}
+
+      <span class="current">
+          Page {{ workers.number }} of {{ workers.paginator.num_pages }}.
+      </span>
+
+      {% if workers.has_next %}
+          <button type="submit" name="page" value="{{ workers.next_page_number }}" class="btn btn-sm btn-secondary">next</button>
+          <button type="submit" name="page" value="{{ workers.paginator.num_pages }}" class="btn btn-sm btn-secondary">last &raquo;</button>
+      {% endif %}
+    </form>
   {% else %}
     <div class="text-center">
       <h1> Right now you are alone here 🥸</h1>
     </div>
-
   {% endif %}
 
 </ul>
