@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.views import generic
 
-from .forms import TaskCreationForm, TaskEditForm, AssignWorkerForm
+from .forms import TaskCreationForm, TaskEditForm, AssignWorkerForm, WorkerSearchForm
 from .models import Task, Worker
 
 
@@ -212,10 +212,15 @@ def assign_worker_to_task(request):
     return render(request, 'task_manager/assign_worker_to_task.html', {'form': form})
 
 
-def workers_list(request):
-    workers_list = Worker.objects.all()
-    paginator = Paginator(workers_list, 5)
-
+def workers_list_view(request):
+    workers_list = get_user_model().objects.all()
+    search_name = request.GET.get('name', None)
+    if search_name:
+        workers_list = workers_list.filter(
+            first_name__icontains=search_name) | workers_list.filter(
+            last_name__icontains=search_name
+        )
+    paginator = Paginator(workers_list, 7)
     page = request.GET.get('page')
     try:
         workers = paginator.page(page)
@@ -225,7 +230,8 @@ def workers_list(request):
         workers = paginator.page(paginator.num_pages)
 
     context = {
-        'workers': workers,
+        "workers": workers,
+        "search_form": WorkerSearchForm(initial={'name': search_name}),
     }
 
     return render(request, "task_manager/worker_list.html", context)

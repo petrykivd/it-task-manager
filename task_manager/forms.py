@@ -52,3 +52,12 @@ class WorkerForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = '__all__'
+
+
+class WorkerSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={'placeholder': '🔍Search by name'})
+    )

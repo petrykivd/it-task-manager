@@ -14,7 +14,7 @@ from task_manager.views import (
     create_task,
     edit_task,
     assign_worker_to_task,
-    workers_list,
+    workers_list_view,
     mark_task_as_undone,
 )
 
@@ -33,6 +33,6 @@ urlpatterns = [
     path("tasks/create/", create_task, name="create-task"),
     path("tasks/edit-task/<int:pk>/", edit_task, name="edit-task"),
     path("assign-worker-to-task/", assign_worker_to_task, name="assign-worker-to-task"),
-    path("workers_list/", workers_list, name="workers-list"),
+    path("workers_list/", workers_list_view, name="workers-list"),
 ]
 app_name = "task_manager"

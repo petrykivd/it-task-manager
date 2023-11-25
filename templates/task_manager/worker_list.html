@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
-
+{% block title %}
+  Workers list
+{% endblock %}
 {% block content %}
-  {% if not workers.count == 1 %}
+  {% if not workers.count == 0 %}
+    <form action="" method="get" class="form-inline w-40">
+    {{ search_form.as_p }}
+    </form>
     <h2>Workers List</h2>
     <ul>
     {% for worker in workers %}
