@@ -144,6 +144,7 @@ def completed_tasks_view(request):
 
     paginator = Paginator(completed_tasks, 2)
     page = request.GET.get('page')
+
     try:
         completed_tasks = paginator.page(page)
     except PageNotAnInteger:
@@ -151,11 +152,9 @@ def completed_tasks_view(request):
     except EmptyPage:
         completed_tasks = paginator.page(paginator.num_pages)
 
-
     context = {
         'completed_tasks': completed_tasks,
     }
-
     return render(request, "task_manager/archive_task_list.html", context)
 
 

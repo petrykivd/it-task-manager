@@ -6,12 +6,11 @@
 {% endblock %}
 
 {% block content %}
-  <!-- Specific JS goes HERE -->
   <div class="container-fluid py-4">
     {% if completed_tasks %}
       <div class="text-center">
-        <h3>During the entire time, our team completed {{ completed_tasks.count }}
-          task{{ completed_tasks.count|pluralize }}</h3>
+        <h3>During the entire time, our team completed {{ completed_tasks|length }}
+          task{{ completed_tasks|length|pluralize }}</h3>
       </div>
       <div class="row justify-content-center">
         <div class="card w-50">
