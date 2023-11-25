@@ -3,6 +3,10 @@
 Welcome to the Task | Hub, a simple web application for managing tasks in your development team. This project allows
 team members to create tasks, assign them to other members, and mark them as completed.
 
+# Task|Hub Home Page Layout
+![image](https://github.com/petrykivd/it-task-manager/assets/111526221/f2be634f-d733-44d3-8f88-6d9a0a57c1ee)
+
+
 ## Features
 
 - **Task Creation**: Team members can create new tasks, providing details such as name, description, deadline, and
