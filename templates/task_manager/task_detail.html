@@ -45,7 +45,8 @@
         <li class="list-group-item border-0 ps-0 pb-0">
           <strong class="text-dark text-sm">Workers:</strong> &nbsp;
           {% for worker in task.assignees.all %}
-            <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+            <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0"
+               href="{% url 'task_manager:worker-detail' pk=worker.id %}">
               {{ worker }}
             </a>
           {% endfor %}
@@ -60,6 +61,11 @@
                   <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
                           data-bs-target="#confirmModal">
                     Mark task as done
+                  </button>
+                {% elif user.is_superuser %}
+                  <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#confirmUndoneModal">
+                    Mark task as undone
                   </button>
                 {% endif %}
               {% else %}

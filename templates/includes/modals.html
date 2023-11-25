@@ -20,6 +20,28 @@
     </div>
   </div>
 
+<!-- undone task Modal -->
+  <div class="modal fade" id="confirmUndoneModal" tabindex="-1" aria-labelledby="confirmUndoneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmUndoneModalLabel">Confirmation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to mark this task as undone?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <form method="post" action="{% url 'task_manager:mark-task-as-undone' task_id=task.id %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Yes, task is undone</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">

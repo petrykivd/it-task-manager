@@ -79,6 +79,22 @@ def mark_task_as_done(request, task_id):
     return redirect('/')
 
 
+@user_passes_test(lambda u: u.is_staff)
+@login_required
+def mark_task_as_undone(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+        task.is_completed = False
+        task.complete_date = None
+        task.save()
+        messages.success(request, 'Task marked as undone successfully.')
+    except Task.DoesNotExist:
+        messages.error(request, 'Task not found.')
+
+    return redirect('task_manager:task-detail', pk=task_id)
+
+
+@user_passes_test(lambda u: u.is_staff)
 @login_required()
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -198,16 +214,14 @@ def assign_worker_to_task(request):
 
 def workers_list(request):
     workers_list = Worker.objects.all()
-    paginator = Paginator(workers_list, 5)  # Вказуємо, скільки працівників показувати на одній сторінці
+    paginator = Paginator(workers_list, 5)
 
     page = request.GET.get('page')
     try:
         workers = paginator.page(page)
     except PageNotAnInteger:
-        # Якщо номер сторінки не є цілим числом, відобразимо першу сторінку.
         workers = paginator.page(1)
     except EmptyPage:
-        # Якщо номер сторінки за межами діапазону, відобразимо останню сторінку.
         workers = paginator.page(paginator.num_pages)
 
     context = {

@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from task_manager.views import (
     index,
@@ -13,7 +13,9 @@ from task_manager.views import (
     login_view,
     create_task,
     edit_task,
-    assign_worker_to_task, workers_list,
+    assign_worker_to_task,
+    workers_list,
+    mark_task_as_undone,
 )
 
 urlpatterns = [
@@ -22,6 +24,7 @@ urlpatterns = [
     path("logout", logout_view, name="logout"),
     path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task-detail"),
     path("mark_task_as_done/<int:task_id>/", mark_task_as_done, name="mark-task-as-done"),
+    path("mark_task_as_undone/<int:task_id>/", mark_task_as_undone, name="mark-task-as-undone"),
     path("delete_task/<int:task_id>/", delete_task, name="delete-task"),
     path("workers/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
     path("join_task/<int:task_id>/", join_task, name="join-task"),
