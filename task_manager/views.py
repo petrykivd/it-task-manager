@@ -142,6 +142,16 @@ def completed_tasks_view(request):
 
     completed_tasks = Task.objects.filter(is_completed=True)
 
+    paginator = Paginator(completed_tasks, 2)
+    page = request.GET.get('page')
+    try:
+        completed_tasks = paginator.page(page)
+    except PageNotAnInteger:
+        completed_tasks = paginator.page(1)
+    except EmptyPage:
+        completed_tasks = paginator.page(paginator.num_pages)
+
+
     context = {
         'completed_tasks': completed_tasks,
     }
