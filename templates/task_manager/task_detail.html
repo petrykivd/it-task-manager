@@ -80,6 +80,11 @@
                           data-bs-target="#confirmUndoneModal">
                     Mark task as undone
                   </button>
+                {% elif not task.is_completed and request.user not in task.assignees.all %}
+                  <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#confirmModal">
+                    Mark task as done
+                  </button>
                 {% endif %}
               {% endif %}
             </div>
