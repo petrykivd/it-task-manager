@@ -17,10 +17,9 @@
         </form>
       </li>
     {% endfor %}
-
+    <br>
     <form method="get" class="pagination">
       {% if workers.has_previous %}
-          <button type="submit" name="page" value="1" class="btn btn-sm btn-secondary">&laquo; first</button>
           <button type="submit" name="page" value="{{ workers.previous_page_number }}" class="btn btn-sm btn-secondary">prev</button>
       {% endif %}
 
@@ -30,7 +29,6 @@
 
       {% if workers.has_next %}
           <button type="submit" name="page" value="{{ workers.next_page_number }}" class="btn btn-sm btn-secondary">next</button>
-          <button type="submit" name="page" value="{{ workers.paginator.num_pages }}" class="btn btn-sm btn-secondary">last &raquo;</button>
       {% endif %}
     </form>
   {% else %}
