@@ -34,7 +34,7 @@ team members to create tasks, assign them to other members, and mark them as com
     - `python manage.py loaddata database_dump.json` to load the database dump.
 6. Create a superuser: `python manage.py createsuperuser` or use the existing one:
     - Username: `admin`
-    - Password: `admin@12345`
+    - Password: `12345`
       or use regular user:
     - Username: `bob3307`
     - Password: `pass12345`
