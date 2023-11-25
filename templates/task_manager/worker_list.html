@@ -9,18 +9,18 @@
         <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
           {{ worker.first_name }} {{ worker.last_name }}
         </a> - {{ worker.position }}
-        <form method="get" class="d-inline">
-          <input type="hidden" name="worker_id" value="{{ worker.id }}">
-          <button type="submit" class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem;">
-            <i class="fas fa-paperclip"></i> Attach
-          </button>
-        </form>
+        {% if request.user.is_superuser %}
+          <a href="{% url 'task_manager:assign-worker-to-task' %}?worker_id={{ worker.id }}"><i
+              class="fas fa-paperclip "></i> Attach to the task</a>
+        {% endif %}
       </li>
     {% endfor %}
     <br>
     <form method="get" class="pagination">
       {% if workers.has_previous %}
-          <button type="submit" name="page" value="{{ workers.previous_page_number }}" class="btn btn-sm btn-secondary">prev</button>
+        <button type="submit" name="page" value="{{ workers.previous_page_number }}" class="btn btn-sm btn-secondary">
+          prev
+        </button>
       {% endif %}
 
       <span class="current">
@@ -28,7 +28,8 @@
       </span>
 
       {% if workers.has_next %}
-          <button type="submit" name="page" value="{{ workers.next_page_number }}" class="btn btn-sm btn-secondary">next</button>
+        <button type="submit" name="page" value="{{ workers.next_page_number }}" class="btn btn-sm btn-secondary">next
+        </button>
       {% endif %}
     </form>
   {% else %}
