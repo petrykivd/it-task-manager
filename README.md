@@ -24,6 +24,8 @@ team members to create tasks, assign them to other members, and mark them as com
 **Demo Credentials:**
 - Username: `bob3307` 
 - Password: `pass12345`
+- Username: `admin`
+- Password: `admin@12345`
 
 ## Getting Started
 
