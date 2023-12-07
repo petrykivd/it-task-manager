@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+	  Assign Worker to Task
+{% endblock %}
+{% block content %}
+  <h2>Assign Worker to Task</h2>
+  <form method="post" action="{% url 'task_manager:assign-worker-to-task' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+<button type="submit" class="btn btn-primary">Assign worker</button>
+  </form>
+{% endblock %}

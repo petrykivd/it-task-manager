@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}
+  Workers list
+{% endblock %}
+{% block content %}
+  {% if not workers.count == 0 %}
+    <form action="" method="get" class="form-inline w-40">
+    {{ search_form.as_p }}
+    </form>
+    <h2>Workers List</h2>
+    <ul>
+    {% for worker in workers %}
+      <li>
+        <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+          {{ worker.first_name }} {{ worker.last_name }}
+        </a> - {{ worker.position }}
+        {% if request.user.is_superuser %}
+          <a href="{% url 'task_manager:assign-worker-to-task' %}?worker_id={{ worker.id }}"><i
+              class="fas fa-paperclip "></i> Attach to the task</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+    <br>
+    <form method="get" class="pagination">
+      {% if workers.has_previous %}
+        <button type="submit" name="page" value="{{ workers.previous_page_number }}" class="btn btn-sm btn-secondary">
+          prev
+        </button>
+      {% endif %}
+
+      <span class="current">
+          Page {{ workers.number }} of {{ workers.paginator.num_pages }}.
+      </span>
+
+      {% if workers.has_next %}
+        <button type="submit" name="page" value="{{ workers.next_page_number }}" class="btn btn-sm btn-secondary">next
+        </button>
+      {% endif %}
+    </form>
+  {% else %}
+    <div class="text-center">
+      <h1> Right now you are alone here 🥸</h1>
+    </div>
+  {% endif %}
+
+</ul>
+{% endblock %}

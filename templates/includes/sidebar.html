@@ -1,0 +1,58 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+       id="sidenav-main">
+  <div class="sidenav-header">
+    <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+       aria-hidden="true" id="iconSidenav"></i>
+    <a class="navbar-brand m-0" href="/">
+      <img src="{% static 'images/logo.jpg' %}" class="navbar-brand-img h-100 rounded-circle" alt="main_logo">
+      <span class="ms-1 font-weight-bold">Task | Hub</span>
+    </a>
+  </div>
+  <hr class="horizontal dark mt-0">
+  {% if request.user.is_authenticated %}
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="{% url 'task_manager:worker-detail' pk=user.id %}"
+             class="nav-link {% if user.id == worker.id %}active bg-gradient-light{% endif %}">
+            <div>
+              <img src="/static/images/worker.png" class="navbar-brand-img h-100 rounded-circle" alt="main_logo">
+            </div>
+            <span class="nav-link-text ms-1">My profile</span>
+          </a>
+        </li>
+        <hr class="horizontal dark mt-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'task_manager:create-task' %}">
+            <i class="fas fa-plus-circle ms-2" style="font-size: 22px;" title="Completed"></i>Create task
+          </a>
+        </li>
+        {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'task_manager:assign-worker-to-task' %}">
+              <i class="fas fa-user ms-2" style="font-size: 22px;" title="Completed"></i>Assign worker to task
+            </a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'task_manager:workers-list' %}">
+            <i class="fas fa-users ms-2" style="font-size: 22px;" title="Completed"></i> All workers
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'task_manager:index' %}">
+            <i class="fas fa-tasks  ms-2" style="font-size: 22px;" title="Completed"></i>All tasks
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'task_manager:completed-tasks' %}">
+            <i class="fas fa-check-circle text-success ms-2" style="font-size: 22px;" title="Completed"></i>Completed
+            tasks
+          </a>
+        </li>
+      </ul>
+    </div>
+  {% endif %}
+</aside>

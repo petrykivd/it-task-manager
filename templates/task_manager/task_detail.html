@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Task #{{ task.id }} {{ task.name }}
+{% endblock %}
+{% block content %}
+  <div class="col-12 col-xl-8 " style="margin-left: auto; margin-right: auto;">
+    <div class="card h-100">
+      <div class="card-header pb-0 p-3">
+        <div class="row">
+          <div class="col-md-8 d-flex align-items-center">
+            {% if not task.is_completed %}
+              <i class="fas fa-circle-notch fa-spin text-warning me-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                 aria-hidden="true" aria-label="Edit Task"></i><span class="sr-only">Edit task</span>
+
+              <h6 class="mb-0">{{ task.name }}</h6>
+              </div>
+              <div class="col-md-4 text-end">
+                <a href="{% url 'task_manager:edit-task' pk=task.id %}">
+                  <i class="fas fa-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+                     aria-hidden="true" aria-label="Edit Task"></i><span class="sr-only">Edit task</span>
+                </a>
+              </div>
+            {% else %}
+              <i class="fas fa-check-circle me-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                 aria-hidden="true" aria-label="Edit Task"></i><span class="sr-only">Edit task</span>
+              <h6 class="mb-0">{{ task.name }}</h6>
+              </div>
+            {% endif %}
+      </div>
+    </div>
+    <div class="card-body p-3">
+      <p class="text-dark">
+        {{ task.description }}
+      </p>
+      <hr class="horizontal gray-light my-4">
+      <ul class="list-group">
+        <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Task
+          type: </strong>{{ task.task_type }}</li>
+        <li class="list-group-item border-0 ps-0 text-sm"><strong
+            class="text-dark">Priority:</strong> {{ task.priority|title }} </li>
+        <li class="list-group-item border-0 ps-0 text-sm"><strong
+            class="text-dark">Deadline:</strong> {{ task.deadline }}</li>
+        <li class="list-group-item border-0 ps-0 pb-0">
+          <strong class="text-dark text-sm">Workers:</strong> &nbsp;
+          {% for worker in task.assignees.all %}
+            <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0"
+               href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+              {{ worker }}
+            </a>
+          {% endfor %}
+          <div class="text-end mt-3">
+            <div>
+              {% if request.user in task.assignees.all %}
+                <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                        data-bs-target="#leaveTaskModal">
+                  Leave the task
+                </button>
+                {% if not task.is_completed %}
+                  <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#confirmModal">
+                    Mark task as done
+                  </button>
+                {% endif %}
+              {% else %}
+                <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal"
+                        data-bs-target="#joinTaskModal">
+                  Join the task
+                </button>
+              {% endif %}
+
+              {% if request.user.is_superuser %}
+                <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                  Delete Task
+                </button>
+                {% if task.is_completed %}
+                  <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#confirmUndoneModal">
+                    Mark task as undone
+                  </button>
+                {% elif not task.is_completed and request.user not in task.assignees.all %}
+                  <button type="button" class="btn btn-success btn-sm ms-2" data-bs-toggle="modal"
+                          data-bs-target="#confirmModal">
+                    Mark task as done
+                  </button>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% include "includes/modals.html" %}
+{% endblock %}

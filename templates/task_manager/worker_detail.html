@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if user.id == worker.id %}
+    My profile
+  {% else %}
+    {{ worker.first_name }} {{ worker.last_name }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="page-header min-height-300 border-radius-xl mt-4"
+         style="background-image: url({% static "images/curved.jpg" %}); background-position-y: 50%;">
+      <span class="mask bg-gradient-primary opacity-6"></span>
+    </div>
+    <div class="card card-body blur shadow-blur mx-4 mt-n10 overflow-hidden">
+      <div class="row gx-4">
+        <div class="col-auto">
+          <div class="avatar avatar-xl position-relative">
+            <img src="{% static 'images/worker.png' %}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+          </div>
+        </div>
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1">
+              {{ worker.first_name }} {{ worker.last_name }}
+              <a href="" class="text-secondary"> @{{ worker.username }}</a>
+            </h5>
+            <p class="mb-0 font-weight-bold text-sm">
+              {{ worker.position }}
+            </p>
+          </div>
+        </div>
+        {% if user.is_superuser %}
+          <div>
+            <a href="{% url 'task_manager:assign-worker-to-task' %}?worker_id={{ worker.id }}"><i
+                class="fas fa-paperclip"></i> Attach to the task</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-xl-4 mx-auto mt-7">
+        <div class="card h-100">
+          <div class="card-header pb-0 p-3 text-center">
+            <div class="row">
+              <div class="col-md-8 d-flex align-items-center">
+                <h6 class="mb-0">I'm working on..</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              {% for task in tasks %}
+                {% if not task.is_completed %}
+                  <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark"><i
+                      class="fas fa-circle-notch fa-spin text-warning me-2" data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      aria-hidden="true" aria-label="Edit Task"></i>Task</strong> &nbsp;
+                    <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4 mx-auto mt-7">
+        <div class="card h-100">
+          <div class="card-header pb-0 p-3 text-center">
+            <div class="row">
+              <div class="col-md-8 d-flex align-items-center">
+                <h6 class="mb-0">My completed tasks:</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              {% for task in tasks %}
+                {% if task.is_completed %}
+                  <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark"><i
+                      class="fas fa-check-circle me-2" data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      aria-hidden="true" aria-label="Edit Task"></i>Task</strong> &nbsp;
+                    <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
